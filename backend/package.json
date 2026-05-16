@@ -1,0 +1,11 @@
+{
+  "name": "study-time-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "server": "json-server --watch db.json --port 3333"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}
