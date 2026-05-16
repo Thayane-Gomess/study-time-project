@@ -1,59 +1,68 @@
 import { FormEvent, useState } from "react";
 import { api } from "../services/api";
-import { useSubjects } from "../hooks/useSubjects";
 import { useStudySessions } from "../hooks/useStudySessions";
+import { useSubjects } from "../hooks/useSubjects";
 
 export function StudySessionForm() {
-  const { subjects } = useSubjects();
-  const { sessions, setSessions } = useStudySessions();
-  const [subjectId, setSubjectId] = useState<number | "">("");
   const [duration, setDuration] = useState("");
+  const [subjectId, setSubjectId] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const { sessions, setSessions } = useStudySessions();
+  const { subjects } = useSubjects();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    if (!subjectId || !duration) return;
-
-    const newSession = {
-      subjectId: Number(subjectId),
-      duration: Number(duration),
-      date: new Date().toISOString(),
-    };
+    if (!duration || !subjectId) return;
 
     try {
-      const response = await api.post("/studySessions", newSession);
+      const response = await api.post("/sessions", {
+        duration: Number(duration),
+        subjectId,
+        notes,
+      });
+
       setSessions([...sessions, response.data]);
+
       setDuration("");
       setSubjectId("");
-    } catch (error) {
-      console.error("Erro ao salvar sessão", error);
+      setNotes("");
+    } catch (err) {
+      console.log("Erro ao registrar sessão:", err);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Registrar estudo</h2>
+    <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
+      <h2>Nova sessão de estudo</h2>
 
       <select
         value={subjectId}
-        onChange={(e) => setSubjectId(Number(e.target.value))}
+        onChange={(e) => setSubjectId(e.target.value)}
       >
         <option value="">Selecione uma matéria</option>
-        {subjects.map((subject) => (
-          <option key={subject.id} value={subject.id}>
-            {subject.name}
+        {subjects.map((s) => (
+          <option key={s.id} value={s.id}>
+            {s.name}
           </option>
         ))}
       </select>
 
       <input
         type="number"
+        placeholder="Duração (minutos)"
         value={duration}
         onChange={(e) => setDuration(e.target.value)}
-        placeholder="Duração em minutos"
       />
 
-      <button type="submit">Salvar sessão</button>
+      <textarea
+        placeholder="Anotações (opcional)"
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
+
+      <button type="submit">Registrar</button>
     </form>
   );
 }

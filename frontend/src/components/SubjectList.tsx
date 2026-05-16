@@ -1,20 +1,15 @@
-import { useSubjects } from "../hooks/useSubjects";
-
-export function SubjectList() {
-  const { subjects, loading } = useSubjects();
-
-  if (loading) return <p>Carregando matérias...</p>;
-
-  if (!subjects.length) {
-    return <p>Nenhuma matéria cadastrada ainda.</p>;
-  }
-
+export function SubjectList({ subjects }: { subjects: any[] }) {
   return (
     <div>
-      <h2>Matérias</h2>
-      <ul>
-        {subjects.map((subject) => (
-          <li key={subject.id}>{subject.name}</li>
+      <h3>Matérias cadastradas</h3>
+
+      {subjects.length === 0 && <p>Nenhuma matéria cadastrada ainda.</p>}
+
+      <ul style={{ marginTop: 12 }}>
+        {subjects.map((s) => (
+          <li key={s.id} style={{ marginBottom: 6 }}>
+            {s.name}
+          </li>
         ))}
       </ul>
     </div>
