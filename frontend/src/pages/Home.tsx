@@ -1,4 +1,4 @@
-import { MainLayout } from "../../layout/MainLayout";
+import MainLayout from "../../layout/MainLayout";
 
 export function Home() {
   return (
@@ -8,3 +8,4 @@ export function Home() {
     </MainLayout>
   );
 }
+

@@ -1,22 +1,17 @@
-import { useStudySessions } from "../hooks/useStudySessions";
+interface StudySummaryProps {
+  sessions: any[];
+}
 
-export function StudySummary() {
-  const { totalMinutes, sessions } = useStudySessions();
+export default function StudySummary({ sessions }: StudySummaryProps) {
+  const totalMinutes = sessions.reduce(
+    (acc, session) => acc + (session.minutes || 0),
+    0
+  );
 
   return (
     <div>
       <h2>Resumo</h2>
-      <p>Total estudado: {totalMinutes} minutos</p>
-
-      <h3>Últimas sessões</h3>
-      <ul>
-        {sessions.slice(-5).map((session) => (
-          <li key={session.id}>
-            {session.duration} min -{" "}
-            {new Date(session.date).toLocaleString("pt-BR")}
-          </li>
-        ))}
-      </ul>
+      <p>Total de minutos estudados: {totalMinutes}</p>
     </div>
   );
 }

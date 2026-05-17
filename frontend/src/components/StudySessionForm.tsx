@@ -1,4 +1,5 @@
-import { FormEvent, useState } from "react";
+import type { FormEvent } from "react";
+import { useState } from "react";
 import { api } from "../services/api";
 import { useStudySessions } from "../hooks/useStudySessions";
 import { useSubjects } from "../hooks/useSubjects";

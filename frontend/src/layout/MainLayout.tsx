@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import "./MainLayout.css";
 
 interface MainLayoutProps {
@@ -28,3 +28,4 @@ export function MainLayout({ children }: MainLayoutProps) {
     </div>
   );
 }
+
